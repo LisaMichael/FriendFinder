@@ -6,7 +6,7 @@
 // These data sources hold arrays of information on table-data, waitinglist, etc.
 // ===============================================================================
 
-var friends = require("../data/friends");
+let friends = require("../data/friends");
 // var waitListData = require("../data/waitinglistData");
 
 
@@ -45,9 +45,6 @@ module.exports = function (app) {
   app.post("/api/friends", function (req, res) {
 
 
-    // req.body is available since we're using the body parsing middleware
-
-
     // Determine the user's most compatible friend using the following as a guide:
 
     // Convert each user's results into a simple array of numbers (ex: [5, 1, 4, 4, 5, 1, 2, 5, 4, 1]).
@@ -70,7 +67,9 @@ module.exports = function (app) {
 
     // if (friends.length < 5) {
       friends.push(req.body);
+      console.log(req)
       res.json(true);
+     
     // }
 
     console.log(friends);

@@ -1,4 +1,4 @@
-var friends = {
+var friends = [{
     name: "Ahmed",
      photo :"https://cdn1.thr.com/sites/default/files/imagecache/NFE_portrait/2011/06/lisasimpa_a_p.jpg",
      scores :[
@@ -13,7 +13,7 @@ var friends = {
         4,
         1
       ]
-  }
+  }]
   
 
 module.exports = friends; 

@@ -1,138 +1,44 @@
+//a POST routes /api/friends - this handles incoming survey results. will also used to handle the compatibility logic
+//Load Data
+let friendList = require('../data/friends.js');
 
-
-// ===============================================================================
-// LOAD DATA
-// We are linking our routes to a series of "data" sources.
-// These data sources hold arrays of information on table-data, waitinglist, etc.
-// ===============================================================================
-
-let friends = require("../data/friends");
-
-
-// declaring variables
-
-
-
-
-// ===============================================================================
-// ROUTING
-// ===============================================================================
-
-module.exports = function (app) {
-  // API GET Requests
-  // A GET route with the url /api/friends. This will be used to display a JSON of all possible friends. 
-
-  app.get("/api/friends", function (req, res) {
-    res.json(friends);
-
-
+module.exports = function(app){
+  //a GET route that displays JSON of all possible friends
+  app.get('/api/friends', function(req,res){
+    res.json(friendList);
   });
 
+  app.post('/api/friends', function(req,res){
+    //grabs the new friend's scores to compare with friends in friendList array
+    let newFriendScores = req.body.scores;
+    let scoresArray = [];
+    let friendCount = 0;
+    let bestMatch = 0;
 
-  // API POST Requests
-  // Below code handles when a user submits a form and thus submits data to the server.
-  // In each of the below cases, when a user submits form data (a JSON object)
-  // ...the JSON is pushed to the appropriate JavaScript array
-  // Then the server saves the data to the friends array)
-
-  //A POST routes /api/friends. This will be used to handle incoming survey results. This route will also be used to handle the compatibility logic.
-
-  // ---------------------------------------------------------------------------
-
-  app.post("/api/friends", function (req, res) {
-
-    // new friend based upon user input 
-    var newFriend = {
-      name: req.body.name,
-      photo: req.body.photo,
-      scores: req.body.scores
-    };
-
-    // console.log(newFriend);
-
-
-    // console.log(req)
-    res.json(true);
-
-    // console.log(friends);
-    // console.log(req.body.scores);
-
-    let friendScores = req.body.scores;
-    // console.log(friendScores);
-
-
-    // default best friend match is the first friend in array but result will be whoever has the minimum difference  
-    var bestieIndex = 0;
-    var minimumDifference = 1000;
-
-    // create a nested for loop. 
-    //The outside loop , we will iterate through the friends in the friends array,
-    // and in the inside loop, we will loop through the scores in the friend iteration
-
-
-
-    //total difference variable used in logic to determine friend compatibility
-
-    let totalDifference = 0;
-
-    for (let i = 0; i < friends.length; i++) {
-      // console.log('friend = ' + JSON.stringify(friends[i]));
-      totalDifference = 0;
-
-      for (let j = 0; j < friendScores.length; j++) {
-
-        // Determine the user's most compatible friend using the following as a guide:
-
-
-        // Convert each user's results into a simple array of numbers (ex: [5, 1, 4, 4, 5, 1, 2, 5, 4, 1]).
-
-
-        // console.log(friendScores[j] + " + this is the new friendsscore");
-        // console.log(parseInt(friends[i].scores[j]) + " this is friend array score");
-
-
-
-        // Remember to use the absolute value of the differences.
-        // I used Math.abs() so no negative solutions are generated 
-        let difference = Math.abs(friendScores[j] - (parseInt(friends[i].scores[j])));
-
-        // compare the difference between current user's scores against those from other users, question by question. Add the differences to determine the totalDifference as we iterate thru loop.
-
-        totalDifference += difference;
-
-        //  the best friend match
-    // res.json(friends[bestieIndex]);
-console.log(friends[bestieIndex]);
+    //use nested forloop to run through all current friends in the array
+    for(let i=0; i<friendList.length; i++){
+      let scoresDiff = 0;
+      //run through scores to compare friends
+      for(let j=0; j<newFriendScores.length; j++){
+        scoresDiff += (Math.abs(parseInt(friendList[i].scores[j]) - parseInt(newFriendScores[j])));
       }
 
-
-      // The closest match will be the user with the least amount of difference.
-
-      // if there is a new minimum, change the best friend index and set the new minimum for next iteration comparisons
-      if (totalDifference < minimumDifference) {
-        bestieIndex = i;
-        minimumDifference = totalDifference;
-      }
-
+      //push results into scoresArray
+      scoresArray.push(scoresDiff);
     }
 
-    // push the new friend to the friend array 
-    friends.push(newFriend);
+    //after all friends are compared, find best match
+    for(let i=0; i<scoresArray.length; i++){
+      if(scoresArray[i] <= scoresArray[bestMatch]){
+        bestMatch = i;
+      }
+    }
 
+    //return bestMatch data
+    let bff = friendList[bestMatch];
+    res.json(bff);
 
-    
-  });
-
-  // console.log(totalDifference + " for friend" + friends[i]);
-  // ---------------------------------------------------------------------------
-  //  this  code will clear out the survey questions
-
-
-  app.post("/api/clear", function (req, res) {
-    // Empty out the arrays of data
-    friends.length = 0;
-
-
-    res.json({ ok: true });
+    //pushes new submission into the friendsList array
+    friendList.push(req.body);
   });
 };

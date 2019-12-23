@@ -87,8 +87,8 @@ module.exports = function (app) {
         // Convert each user's results into a simple array of numbers (ex: [5, 1, 4, 4, 5, 1, 2, 5, 4, 1]).
 
 
-        console.log(friendScores[j] + " + this is the new friendsscore");
-        console.log(parseInt(friends[i].scores[j]) + " this is friend array score");
+        // console.log(friendScores[j] + " + this is the new friendsscore");
+        // console.log(parseInt(friends[i].scores[j]) + " this is friend array score");
 
 
 
@@ -96,16 +96,13 @@ module.exports = function (app) {
         // I used Math.abs() so no negative solutions are generated 
         let difference = Math.abs(friendScores[j] - (parseInt(friends[i].scores[j])));
 
-
-
-
-
-
-
-        // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
+        // compare the difference between current user's scores against those from other users, question by question. Add the differences to determine the totalDifference as we iterate thru loop.
 
         totalDifference += difference;
-        console.log(totalDifference + " friend " + friendScores[j]);
+
+        //  the best friend match
+    // res.json(friends[bestieIndex]);
+console.log(friends[bestieIndex]);
       }
 
 
@@ -123,9 +120,7 @@ module.exports = function (app) {
     friends.push(newFriend);
 
 
-    //  the best friend match
-    // res.json(friends[bestieIndex]);
-
+    
   });
 
   // console.log(totalDifference + " for friend" + friends[i]);

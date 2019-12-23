@@ -50,7 +50,7 @@ module.exports = function (app) {
 
     // console.log(newFriend);
 
-   
+
     // console.log(req)
     res.json(true);
 
@@ -60,19 +60,24 @@ module.exports = function (app) {
     let friendScores = req.body.scores;
     // console.log(friendScores);
 
+
+    // default best friend match is the first friend in array but result will be whoever has the minimum difference  
+    var bestieIndex = 0;
+    var minimumDifference = 1000;
+
     // create a nested for loop. 
     //The outside loop , we will iterate through the friends in the friends array,
     // and in the inside loop, we will loop through the scores in the friend iteration
 
 
-    
+
     //total difference variable used in logic to determine friend compatibility
 
-    let totalDifference = 0; 
+    let totalDifference = 0;
 
     for (let i = 0; i < friends.length; i++) {
       // console.log('friend = ' + JSON.stringify(friends[i]));
-       totalDifference = 0;
+      totalDifference = 0;
 
       for (let j = 0; j < friendScores.length; j++) {
 
@@ -90,23 +95,36 @@ module.exports = function (app) {
         // Remember to use the absolute value of the differences.
         // I used Math.abs() so no negative solutions are generated 
         let difference = Math.abs(friendScores[j] - (parseInt(friends[i].scores[j])));
-        // The closest match will be the user with the least amount of difference.
 
 
 
-        console.log(difference );
 
-         // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
+
+
+
+        // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
 
         totalDifference += difference;
         console.log(totalDifference + " friend " + friendScores[j]);
       }
 
-      
+
+      // The closest match will be the user with the least amount of difference.
+
+      // if there is a new minimum, change the best friend index and set the new minimum for next iteration comparisons
+      if (totalDifference < minimumDifference) {
+        bestieIndex = i;
+        minimumDifference = totalDifference;
+      }
+
     }
 
-// push the new friend to the friend array 
-friends.push(newFriend);
+    // push the new friend to the friend array 
+    friends.push(newFriend);
+
+
+    //  the best friend match
+    // res.json(friends[bestieIndex]);
 
   });
 

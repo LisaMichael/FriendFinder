@@ -17,7 +17,7 @@ var friends = [{
 
 {
   name: "Lisa",
-  photo: "https://www.stickpng.com/assets/images/5a0c40b85a997e1c2cea116e.png",
+  photo: "https://cdn.shopify.com/s/files/1/0843/2781/products/free-lisa-simpson-l-for-loser-the-simpsons-enamel-pin-just-pay-shipping_large.jpg",
   scores: [
     3,
     5,

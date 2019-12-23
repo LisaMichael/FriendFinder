@@ -41,4 +41,18 @@ module.exports = function(app){
     //pushes new submission into the friendsList array
     friendList.push(req.body);
   });
+
+//  this  code will clear out the survey questions
+
+
+app.post("/api/clear", function (req, res) {
+  // Empty out the arrays of data
+  friends.length = 0;
+
+
+  res.json({ ok: true });
+});
+
+
 };
+

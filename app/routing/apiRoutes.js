@@ -50,7 +50,7 @@ module.exports = function (app) {
 
     // console.log(newFriend);
 
-    friends.push(newFriend);
+   
     // console.log(req)
     res.json(true);
 
@@ -65,10 +65,14 @@ module.exports = function (app) {
     // and in the inside loop, we will loop through the scores in the friend iteration
 
 
+    
+    //total difference variable used in logic to determine friend compatibility
+
+    let totalDifference = 0; 
 
     for (let i = 0; i < friends.length; i++) {
       // console.log('friend = ' + JSON.stringify(friends[i]));
-
+       totalDifference = 0;
 
       for (let j = 0; j < friendScores.length; j++) {
 
@@ -82,12 +86,6 @@ module.exports = function (app) {
         console.log(parseInt(friends[i].scores[j]) + " this is friend array score");
 
 
-        // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
-
-        //total difference variable used in logic to determine friend compatibility
-
-        let totalDifference = 0; 
-
 
         // Remember to use the absolute value of the differences.
         // I used Math.abs() so no negative solutions are generated 
@@ -96,18 +94,23 @@ module.exports = function (app) {
 
 
 
-        console.log(difference);
+        console.log(difference );
+
+         // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
+
         totalDifference += difference;
-        console.log(difference + " for friend" + friends[i]);
+        console.log(totalDifference + " friend " + friendScores[j]);
       }
 
       
     }
 
+// push the new friend to the friend array 
+friends.push(newFriend);
 
   });
 
-
+  // console.log(totalDifference + " for friend" + friends[i]);
   // ---------------------------------------------------------------------------
   //  this  code will clear out the survey questions
 

@@ -9,6 +9,11 @@
 let friends = require("../data/friends");
 
 
+// declaring variables
+
+
+
+
 // ===============================================================================
 // ROUTING
 // ===============================================================================
@@ -52,12 +57,14 @@ module.exports = function (app) {
     // console.log(friends);
     // console.log(req.body.scores);
 
-    var friendScores = req.body.scores;
+    let friendScores = req.body.scores;
     // console.log(friendScores);
 
     // create a nested for loop. 
     //The outside loop , we will iterate through the friends in the friends array,
     // and in the inside loop, we will loop through the scores in the friend iteration
+
+
 
     for (let i = 0; i < friends.length; i++) {
       // console.log('friend = ' + JSON.stringify(friends[i]));
@@ -71,30 +78,35 @@ module.exports = function (app) {
         // Convert each user's results into a simple array of numbers (ex: [5, 1, 4, 4, 5, 1, 2, 5, 4, 1]).
 
 
-        console.log(friendScores[j] + " + this is friendsscore");
+        console.log(friendScores[j] + " + this is the new friendsscore");
         console.log(parseInt(friends[i].scores[j]) + " this is friend array score");
+
 
         // compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the totalDifference.
 
+        //total difference variable used in logic to determine friend compatibility
 
-        // Remember to use the absolute value of the differences. Put another way: no negative solutions! 
+        let totalDifference = 0; 
+
+
+        // Remember to use the absolute value of the differences.
+        // I used Math.abs() so no negative solutions are generated 
+        let difference = Math.abs(friendScores[j] - (parseInt(friends[i].scores[j])));
         // The closest match will be the user with the least amount of difference.
 
 
+
+        console.log(difference);
+        totalDifference += difference;
+        console.log(difference + " for friend" + friends[i]);
       }
+
+      
     }
 
 
-
-
-
-
-
-
-
-
   });
-  
+
 
   // ---------------------------------------------------------------------------
   //  this  code will clear out the survey questions

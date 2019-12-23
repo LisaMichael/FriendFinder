@@ -20,6 +20,7 @@ module.exports = function(app){
       let scoresDiff = 0;
       //run through scores to compare friends
       for(let j=0; j<newFriendScores.length; j++){
+        // use Math.abs() method so values are absolute, and no negative values
         scoresDiff += (Math.abs(parseInt(friendList[i].scores[j]) - parseInt(newFriendScores[j])));
       }
 
@@ -38,7 +39,7 @@ module.exports = function(app){
     let bff = friendList[bestMatch];
     res.json(bff);
 
-    //pushes new submission into the friendsList array
+    //pushes new friend into the friendsList array
     friendList.push(req.body);
   });
 
